@@ -1,5 +1,3 @@
-from urllib import request
-
 from django.shortcuts import render
 from .models import Tastes, register, Complaint
 from django.shortcuts import redirect
@@ -26,7 +24,7 @@ def signup(request):
         if register.objects.filter(email=email).exists():
             return render(request, 'signup.html', {'error': 'Email already exists'})
 
-        register.objects.create_user(username=email, email=email, password=password,home_address=home_address, contact_number=contact_number)
+        register.objects.create_user(username=username, email=email, password=password,home_address=home_address, contact_number=contact_number)
         return redirect('signin') 
     return render(request, 'signup.html')
 
@@ -48,12 +46,12 @@ def online(request):
 
 
 def complaint(request):
-        if request.method == 'POST':
-            complaint_text = request.POST.get('complaint')
-            Complaint.objects.create(complaint_text=complaint_text)
+    if request.method == 'POST':
+        complaint_text = request.POST.get('complaint')
+        Complaint.objects.create(complaint_text=complaint_text)
 
             # You can save the complaint to the database or send it via email here
-        return render(request, 'complaint.html')
+    return render(request, 'complaint.html')
 
 
 def complaint_s(request):
@@ -63,11 +61,13 @@ def complaint_s(request):
     else:
         return redirect('home_page')
 
+
 def admin_page(request):
     if request.user.is_superuser:
         return render(request, 'admin_page.html')
     else:
         return redirect('home_page')
+
 
 def signin(request):
     if request.method == "POST":
@@ -81,13 +81,14 @@ def signin(request):
             
             if user is not None:
                 login(request, user)
-                return redirect("online")  # Redirect to a success page after login
+
+                if request.user.is_superuser:
+                    return render(request, 'admin_page.html')
+                else:
+                    return redirect('online')  # Redirect to a success page after login
             else:
                 form.add_error(None, "Invalid username or password")
-            if request.user.is_superuser:
-                    return render(request, 'admin_page.html')
-            else:
-                return redirect('home_page')
+            
 
     else:
         form = loginForm()
