@@ -25,3 +25,21 @@ class Complaint(models.Model):
 
     def __str__(self):
         return self.complaint_text
+    
+class Order(models.Model):
+    user = models.ForeignKey(register, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    status = models.CharField(
+        max_length=20,
+        choices=[
+            ('Pending', 'Pending'),
+            ('Preparing', 'Preparing'),
+            ('Delivered', 'Delivered'),
+        ],
+        default='Pending'
+    )
+class OrderItem(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    item = models.ForeignKey(Tastes, on_delete=models.CASCADE)
+    quantity = models.IntegerField(default=1)

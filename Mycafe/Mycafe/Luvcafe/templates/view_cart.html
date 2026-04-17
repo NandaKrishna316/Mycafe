@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}Your Cart{% endblock %}
+
+{% block content %}
+
+<h2>Your Cart</h2>
+
+{% if items %}
+
+    <table border="1" cellpadding="10">
+        <tr>
+            <th>Item</th>
+            <th>Price</th>
+            <th>Quantity</th>
+        </tr>
+
+        {% for item in items %}
+        <tr>
+            <td>{{ item.item.tastes }}</td>
+            <td>₹{{ item.item.price }}</td>
+            <td>{{ item.quantity }}</td>
+        </tr>
+        {% endfor %}
+
+    </table>
+
+    <h3>Total Bill: ₹{{ total }}</h3>
+
+{% else %}
+    <p>Your cart is empty.</p>
+{% endif %}
+
+<br>
+
+<a href="{% url 'menu' %}">
+    <button type="button">Back to Menu</button>
+</a>
+
+{% endblock %}

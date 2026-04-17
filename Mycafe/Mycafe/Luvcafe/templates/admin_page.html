@@ -8,13 +8,16 @@
         <a href="{% url 'add_order' %}">Add today's menu</a>
     </button>
     <button>
-            <a href="{% url 'your_order' %}">View order</a>
+            <a href="{% url 'your_order' %}">View the menu for today</a>
     </button>
     <button>
             <a href="{% url 'complaint_s' %}">View Complaints</a>
     </button>
     <button>
         <a href="{% url 'signin' %}">Logout</a>
+    </button>
+    <button>
+        <a href="{% url 'admin_orders' %}">See All Orders</a>
     </button>
         
 {% endblock %}

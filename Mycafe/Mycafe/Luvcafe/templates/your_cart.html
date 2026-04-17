@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}Your Cart{% endblock %}
+
+{% block content %}
+    <h1>Your Cart</h1>
+    <p>
+        {{ item.item.tastes }} 
+        x {{ item.quantity }} 
+        = ₹{{ item.item.price|floatformat:2|add:item.quantity }}
+    </p>
+    <h3>Total: ₹{{ total }}</h3>
+    <button>
+        <a href="{% url 'online' %}">Go to home page</a>
+    </button>
+{% endblock %}

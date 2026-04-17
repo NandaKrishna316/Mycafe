@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Tastes, register, Complaint
+from .models import Order, OrderItem, Tastes, register, Complaint
 from django.shortcuts import redirect
 from .forms import loginForm
 from django.contrib.auth import authenticate, login
@@ -93,3 +93,67 @@ def signin(request):
     else:
         form = loginForm()
     return render(request, 'signin.html', {"form": form})
+
+
+def menu(request):
+    if not request.user.is_authenticated:
+        return redirect('signin')
+    
+    items = Tastes.objects.all()
+    return render(request, 'menu.html', {'items': items})
+
+
+def public_menu(request):
+    items = Tastes.objects.all()
+    return render(request, 'public_menu.html', {'items': items})
+
+
+def your_cart(request):
+    if request.method == 'POST':
+        order = Order.objects.create(user=request.user)
+
+        for key, value in request.POST.items():
+            if key.startswith('quantity_'):
+                item_id = key.split('_')[1]
+                quantity = int(value)
+
+                if quantity > 0:
+                    item = Tastes.objects.get(id=item_id)
+
+                    OrderItem.objects.create(
+                        order=order,
+                        item=item,
+                        quantity=quantity
+                    )
+
+        return redirect('your_cart')
+    return redirect("menu")
+
+def view_cart(request):
+    order = Order.objects.filter(user=request.user).last()
+    items = OrderItem.objects.filter(order=order)
+
+    total = 0
+    for i in items:
+        i.subtotal = i.item.price * i.quantity
+        total += i.item.price * i.quantity
+
+    return render(request, 'view_cart.html', {
+        'items': items,
+        'total': total
+    })
+
+
+def admin_orders(request):
+    if not request.user.is_superuser:
+        return redirect('home_page')
+
+    orders = Order.objects.all()
+    for order in orders:
+        total = 0
+        for item in order.orderitem_set.all():
+            total += item.item.price * item.quantity
+        order.total = total
+
+    return render(request, 'admin_orders.html', {'orders': orders})
+

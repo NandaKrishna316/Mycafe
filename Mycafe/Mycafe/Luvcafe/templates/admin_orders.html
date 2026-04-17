@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}Orders{% endblock %}
+
+{% block content %}
+
+<h2>All Orders</h2>
+
+{% for order in orders %}
+    <div style="border:1px solid black; margin:10px; padding:10px;">
+
+        <h3>Customer Details</h3>
+        <p>Name: {{ order.user.username }}</p>
+        <p>Email: {{ order.user.email }}</p>
+        <p>Address: {{ order.user.home_address }}</p>
+        <p>Phone: {{ order.user.contact_number }}</p>
+
+        <h3>Order Items</h3>
+
+        {% for item in order.orderitem_set.all %}
+            <p>
+                {{ item.item.tastes }} 
+                x {{ item.quantity }}
+            </p>
+        {% endfor %}
+        <p>Total: ₹{{ order.total }}</p>
+    </div>
+{% endfor %}
+    <button>
+        <a href="{% url 'admin_page' %}">Go to admin page</a>
+    </button>
+{% endblock %}

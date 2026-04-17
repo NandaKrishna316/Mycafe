@@ -2,10 +2,17 @@
 
 {% block content %}
 <title>Online Order</title>
-<h1>Online Order</h1>
+<h1>Welcome to LUVCAFE</h1>
+<h2>Online Order</h2>
 <p>Welcome to our online ordering system! Please select your favorite items from our menu and place your order. We offer a variety of delicious options to satisfy your cravings. Browse through our menu, add items to your cart, and proceed to checkout when you're ready. Enjoy a seamless and convenient ordering experience with us!</p>
 <button>
-    <a href="{% url 'your_order' %}">View Menu</a>
+    <a href="{% url 'menu' %}">Get Order</a>
+</button>
+<button>
+    <a href="{% url 'home_page' %}">Logout</a>
+</button>
+ <button>
+    <a class="home-button" href="{% url 'complaint' %}">Register Complaint</a>
 </button>
 
 {% endblock content %}

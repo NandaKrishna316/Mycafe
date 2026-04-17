@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %}Menu{% endblock %}
+
+{% block content %}
+
+<form method="POST" action="{% url 'your_cart' %}">
+    {% csrf_token %}
+
+    {% for item in items %}
+        <div>
+            <h3>{{ item.tastes }} - ₹{{ item.price }}</h3>
+            Quantity: 
+            <input type="number" name="quantity_{{ item.id }}" value="0" min="0">
+        </div>
+    {% endfor %}
+
+    <button type="submit">Add to Cart</button>
+    <button>
+        <a href="{% url 'view_cart' %}">View your Cart</a>
+    </button>
+    <button>
+        <a href="{% url 'online' %}">Back to Home</a>
+    </button>
+</form>
+
+{% endblock %}

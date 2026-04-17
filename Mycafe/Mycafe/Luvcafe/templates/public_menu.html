@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Today's Menu</h2>
+
+{% for item in items %}
+    <div>
+        <h3>{{ item.tastes }}</h3>
+        <p>Price: ₹{{ item.price }}</p>
+    </div>
+{% endfor %}
+
+<br>
+
+<a href="{% url 'signin' %}">
+    <button>Login to Order</button>
+</a>
+
+{% endblock %}

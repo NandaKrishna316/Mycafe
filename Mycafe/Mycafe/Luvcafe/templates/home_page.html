@@ -5,19 +5,14 @@
 {% block content %}
 <link rel="stylesheet" href="{% static 'css/home.css' %}">
     <div class="home-banner">
-        <button>
-            <a class="home-button" href="{% url 'complaint' %}">Register Complaint</a>
-        </button>
+        <h1>Welcome to LUVCAFE</h1>
+        <h2>PLease signin to order online</h2>
         <button>
             <a class="home-button" href="{% url 'signin' %}">Sign In</a>
         </button>
         <button>
-            <a class="home-button" href="{% url 'your_order' %}">View Menu</a>
+            <a class="home-button" href="{% url 'public_menu' %}">View Menu</a>
         </button>
-        <button>
-            <a class="home-button" href="{% url 'add_order' %}">Order</a>
-        </button>
-        <h1>Welcome to LUVCAFE</h1>
     </div>
     
 {% endblock %}
