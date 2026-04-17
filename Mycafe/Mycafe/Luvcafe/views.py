@@ -1,3 +1,5 @@
+from urllib import request
+
 from django.shortcuts import render
 from .models import Tastes, register, Complaint
 from django.shortcuts import redirect
@@ -28,7 +30,10 @@ def signup(request):
         return redirect('signin') 
     return render(request, 'signup.html')
 
+
 def add_order(request):
+    if not request.user.is_superuser:
+         return redirect('home_page')
     if request.method == 'POST':
         tastes = request.POST.get('tastes')
         price = request.POST.get('price')
@@ -37,39 +42,53 @@ def add_order(request):
         return redirect('your_order')
     return render(request, 'add_order.html')
 
+
 def online(request):
     return render(request, 'online.html')
 
-def menu(request):
-    return render(request, 'menu.html')
 
 def complaint(request):
-    if request.method == 'POST':
-        complaint_text = request.POST.get('complaint')
-        Complaint.objects.create(complaint_text=complaint_text)
+        if request.method == 'POST':
+            complaint_text = request.POST.get('complaint')
+            Complaint.objects.create(complaint_text=complaint_text)
 
-        # You can save the complaint to the database or send it via email here
-    return render(request, 'complaint.html')
+            # You can save the complaint to the database or send it via email here
+        return render(request, 'complaint.html')
+
 
 def complaint_s(request):
-    complaints =Complaint.objects.all()
-    return render(request, 'complaint_s.html', {'complaints': complaints})
+    if request.user.is_superuser:
+        complaints = Complaint.objects.all()
+        return render(request, 'complaint_s.html', {'complaints': complaints})
+    else:
+        return redirect('home_page')
+
+def admin_page(request):
+    if request.user.is_superuser:
+        return render(request, 'admin_page.html')
+    else:
+        return redirect('home_page')
 
 def signin(request):
     if request.method == "POST":
         form = loginForm(request.POST)
         if form.is_valid():
-            name = form.cleaned_data["name"]
-            email = form.cleaned_data["email"]
+            username = form.cleaned_data["username"]
             password = form.cleaned_data["password"]
 
             # Authenticate the user (you can use Django's built-in authentication system)
-            user = authenticate(request, username=email, password=password)
+            user = authenticate(request, username=username, password=password)
+            
             if user is not None:
                 login(request, user)
-                return redirect("home_page")
+                return redirect("online")  # Redirect to a success page after login
             else:
-                form.add_error(None, "Invalid email or password")
+                form.add_error(None, "Invalid username or password")
+            if request.user.is_superuser:
+                    return render(request, 'admin_page.html')
+            else:
+                return redirect('home_page')
+
     else:
         form = loginForm()
     return render(request, 'signin.html', {"form": form})

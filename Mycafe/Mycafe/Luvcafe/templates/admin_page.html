@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}Admin Page{% endblock %}
+
+{% block content %}
+    <h1>Admin Page</h1>
+    <p>Welcome to the admin page. Here you can manage the cafe's operations.</p>
+    <button>
+        <a href="{% url 'add_order' %}">Add today's menu</a>
+    </button>
+    <button>
+            <a href="{% url 'your_order' %}">View order</a>
+    </button>
+    <button>
+            <a href="{% url 'complaint_s' %}">View Complaints</a>
+    </button>
+        
+{% endblock %}

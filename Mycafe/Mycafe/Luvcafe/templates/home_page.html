@@ -6,16 +6,16 @@
 <link rel="stylesheet" href="{% static 'css/home.css' %}">
     <div class="home-banner">
         <button>
-            <a class="home-button" href="{% url 'online' %}">Online Order</a>
-        </button>
-        <button>
             <a class="home-button" href="{% url 'complaint' %}">Register Complaint</a>
         </button>
         <button>
             <a class="home-button" href="{% url 'signin' %}">Sign In</a>
         </button>
         <button>
-            <a class="home-button" href="{% url 'signup' %}">Sign Up</a>
+            <a class="home-button" href="{% url 'your_order' %}">View Menu</a>
+        </button>
+        <button>
+            <a class="home-button" href="{% url 'add_order' %}">Order</a>
         </button>
         <h1>Welcome to LUVCAFE</h1>
     </div>
