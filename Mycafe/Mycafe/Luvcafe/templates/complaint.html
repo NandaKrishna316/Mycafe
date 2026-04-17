@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<title>Complaint</title>
+<h1>Register your Complaints</h1>
+<form method="post">
+    {% csrf_token %}
+    <label for="complaint">Complaint:</label>
+    <input type="text" id="complaint" name="complaint" required><br><br>
+    
+    <button type="submit">Submit Complaint</button>
+</form>
+<button>
+    <a href="{% url 'home_page' %}">Go to home page</a>
+</button>
+{% endblock %}

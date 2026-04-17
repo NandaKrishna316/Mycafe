@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<title>Add Order</title>
+<h1>Add Tastes</h1>
+<form method="post">
+    {% csrf_token %}
+    <div>
+        <form method="post">
+        {% csrf_token %}
+        <label for="tastes">Tastes:</label>
+        <input type="text" id="tastes" name="tastes" required><br><br>
+
+        <label for="price">Price:</label>
+        <input type="number" id="price" name="price" required><br><br>
+
+        <button type="submit" value="Add your order">Add your order </button>
+        </form>
+
+        <button>
+            <a href="{% url 'your_order' %}">View order</a>
+        </button>
+        
+        <button>
+            <a href="{% url 'complaint_s' %}">View Complaints</a>
+        </button>
+    </div>
+</form>
+{% endblock %}

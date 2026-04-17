@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<table border="1">
+                <tr>
+                    <th>Sl No</th>
+                    <th>Item</th>
+                    <th>Price</th>
+                </tr>
+                {% for tastes in orders %}
+                <tr>
+                    <td>{{ forloop.counter}}</td>
+                    <td>{{ tastes.tastes }}</td>
+                    <td>{{ tastes.price }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </ul>
+        <button>
+            <a href="{% url 'add_order' %}">Go to home page</a>
+        </button>
+    
+{% endblock %}

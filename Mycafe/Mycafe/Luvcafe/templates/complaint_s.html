@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<title>Complaint</title>
+<h1>Complaint</h1>
+<table border="1">
+    <tr>
+        <th>Sl No</th>
+        <th>Complaint</th>
+    </tr>
+    {% for complaint in complaints %}
+    <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ complaint.complaint_text }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<button>
+    <a href="{% url 'add_order' %}">Go to home page</a>
+</button>
+{% endblock %}
