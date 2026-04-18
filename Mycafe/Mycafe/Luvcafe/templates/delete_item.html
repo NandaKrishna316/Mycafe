@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Delete Item</h2>
+
+<p>Are you sure you want to delete:</p>
+
+<h3>{{ item.tastes }} - ₹{{ item.price }}</h3>
+
+<form method="POST">
+    {% csrf_token %}
+    <button type="submit">Yes, Delete</button>
+</form>
+
+<br>
+
+<a href="{% url 'manage_menu' %}">
+    <button type="button">Cancel</button>
+</a>
+
+<button>
+    <a href="{% url 'admin_page' %}">Go to admin page</a>
+</button>
+
+{% endblock %}

@@ -39,7 +39,14 @@ class Order(models.Model):
         ],
         default='Pending'
     )
+    
+    def __str__(self):
+        return f"Order #{self.id} | {self.user.username} | {self.status} | {self.created_at}"
+
+
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
     item = models.ForeignKey(Tastes, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=1)
+
+

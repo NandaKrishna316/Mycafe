@@ -157,3 +157,39 @@ def admin_orders(request):
 
     return render(request, 'admin_orders.html', {'orders': orders})
 
+
+def manage_menu(request):
+    if not request.user.is_superuser:
+        return redirect('home_page')
+
+    items = Tastes.objects.all()
+    return render(request, 'manage_menu.html', {'items': items})
+
+
+def edit_item(request, item_id):
+    if not request.user.is_superuser:
+        return redirect('home_page')
+
+    item = Tastes.objects.get(id=item_id)
+
+    if request.method == 'POST':
+        item.tastes = request.POST.get('tastes')
+        item.price = request.POST.get('price')
+        item.save()
+
+        return redirect('manage_menu')
+
+    return render(request, 'edit_item.html', {'item': item})
+
+
+def delete_item(request, item_id):
+    if not request.user.is_superuser:
+        return redirect('home_page')
+
+    item = Tastes.objects.get(id=item_id)
+
+    if request.method == 'POST':
+        item.delete()
+        return redirect('manage_menu')
+
+    return render(request, 'delete_item.html', {'item': item})

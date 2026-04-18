@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Edit Item</h2>
+
+<form method="POST">
+    {% csrf_token %}
+    
+    <input type="text" name="tastes" value="{{ item.tastes }}">
+    <input type="number" name="price" value="{{ item.price }}">
+
+    <button type="submit">Update</button>
+</form>
+
+<button>
+    <a href="{% url 'admin_page' %}">Go to admin page</a>
+</button>
+
+{% endblock %}

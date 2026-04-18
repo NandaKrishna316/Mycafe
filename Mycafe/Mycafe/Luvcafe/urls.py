@@ -7,6 +7,9 @@ urlpatterns = [
     path('add_order/', views.add_order, name='add_order'),
     path('your_order/', views.your_order, name='your_order'),
     path('complaint_s/', views.complaint_s, name='complaint_s'),
+    path('manage_menu/', views.manage_menu, name='manage_menu'),
+    path('delete_item/<int:item_id>/', views.delete_item, name='delete_item'),
+    path('edit_item/<int:item_id>/', views.edit_item, name='edit_item'),
 
     path('', views.home_page, name='home_page'),
     path('online/', views.online, name='online'),

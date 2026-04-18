@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Manage Menu</h2>
+
+<a href="{% url 'add_order' %}">
+    <button>Add New Item</button>
+</a>
+
+{% for item in items %}
+    <div style="border:1px solid black; margin:10px; padding:10px;">
+        <p>{{ item.tastes }} - ₹{{ item.price }}</p>
+
+        <a href="{% url 'edit_item' item.id %}">
+            <button>Edit</button>
+        </a>
+
+        <a href="{% url 'delete_item' item.id %}">
+            <button>Delete</button>
+        </a>
+    </div>
+
+{% endfor %}
+
+<button>
+    <a href="{% url 'admin_page' %}">Go to admin page</a>
+</button>
+
+{% endblock %}
