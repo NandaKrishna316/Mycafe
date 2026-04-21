@@ -1,30 +1,227 @@
 {% extends 'base.html' %}
+{% load static %}
+{% block title %}Manage Menu{% endblock %}
 
 {% block content %}
+<style>
+    body {
+        margin: 0;
+        font-family: 'Poppins', sans-serif;
+        background: url("{% static 'images/Luvcafe.png' %}") no-repeat center center fixed;
+        background-size: cover;
+        min-height: 100vh;
+    }
 
-<h2>Manage Menu</h2>
+    .container {
+        min-height: 100vh;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 50px 20px;
+        box-sizing: border-box;
+        backdrop-filter: blur(8px);
+    }
 
-<a href="{% url 'add_order' %}">
-    <button>Add New Item</button>
-</a>
+    h2 {
+        color: white;
+        font-size: 2rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        margin-bottom: 30px;
+    }
 
-{% for item in items %}
-    <div style="border:1px solid black; margin:10px; padding:10px;">
-        <p>{{ item.tastes }} - ₹{{ item.price }}</p>
+    /* Top Action Bar */
+    .action-bar {
+        width: 100%;
+        max-width: 800px;
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 20px;
+    }
 
-        <a href="{% url 'edit_item' item.id %}">
-            <button>Edit</button>
-        </a>
+    .btn-add {
+        background: #2ecc71;
+        color: white;
+        padding: 12px 25px;
+        border-radius: 10px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: 0.3s;
+        box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
+    }
 
-        <a href="{% url 'delete_item' item.id %}">
-            <button>Delete</button>
-        </a>
+    .btn-add:hover {
+        background: #27ae60;
+        transform: translateY(-2px);
+    }
+
+    /* Menu Item List */
+    .menu-list {
+        width: 100%;
+        max-width: 800px;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .menu-item-card {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 20px;
+        border-radius: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: white;
+        transition: 0.3s;
+    }
+
+    .menu-item-card:hover {
+        background: rgba(255, 255, 255, 0.15);
+        border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .item-info {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .item-name {
+        font-size: 1.2rem;
+        font-weight: 600;
+    }
+
+    .item-price {
+        color: #f1c40f;
+        font-weight: 500;
+        margin-top: 4px;
+    }
+
+    /* Control Buttons */
+    .item-controls {
+        display: flex;
+        gap: 10px;
+    }
+
+    .btn-ctrl {
+        padding: 8px 18px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-size: 0.9rem;
+        font-weight: 600;
+        transition: 0.3s;
+    }
+
+    /* Back Button Container */
+    .btn-container {
+        margin-top: 40px;
+        display: flex;
+        justify-content: center;
+        width: 100%;
+    }
+
+    /* Matching the "All Orders" button style */
+    .btn-back {
+        padding: 12px 35px;
+        border-radius: 12px;
+        text-decoration: none;
+        color: white;
+        font-weight: 600;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        transition: 0.3s;
+    }
+
+    .btn-back:hover {
+        background: white;
+        color: black;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+
+    .btn-edit {
+        background: rgba(255, 255, 255, 0.2);
+        color: white;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .btn-edit:hover {
+        background: white;
+        color: black;
+    }
+
+    .btn-delete {
+        background: rgba(231, 76, 60, 0.2);
+        color: #ff4757;
+        border: 1px solid rgba(231, 76, 60, 0.4);
+    }
+
+    .btn-delete:hover {
+        background: #e74c3c;
+        color: white;
+    }
+
+    /* Navigation Footer */
+    .footer-nav {
+        margin-top: 40px;
+    }
+
+    .btn-nav {
+        color: rgba(255, 255, 255, 0.6);
+        text-decoration: none;
+        font-size: 0.9rem;
+        transition: 0.3s;
+        border-bottom: 1px solid transparent;
+    }
+
+    .btn-nav:hover {
+        color: white;
+        border-bottom: 1px solid white;
+    }
+
+    /* Mobile tweak */
+    @media (max-width: 600px) {
+        .menu-item-card {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 15px;
+        }
+        .item-controls {
+            width: 100%;
+            justify-content: flex-end;
+        }
+    }
+</style>
+
+<div class="container">
+    <h2>Manage Menu</h2>
+
+    <div class="action-bar">
+        <a href="{% url 'add_order' %}" class="btn-add">+ Add New Item</a>
     </div>
 
-{% endfor %}
+    <div class="menu-list">
+        {% for item in items %}
+        <div class="menu-item-card">
+            <div class="item-info">
+                <span class="item-name">{{ item.tastes }}</span>
+                <span class="item-price">₹{{ item.price }}</span>
+            </div>
 
-<button>
-    <a href="{% url 'admin_page' %}">Go to admin page</a>
-</button>
+            <div class="item-controls">
+                <a href="{% url 'edit_item' item.id %}" class="btn-ctrl btn-edit">Edit</a>
+                <a href="{% url 'delete_item' item.id %}" class="btn-ctrl btn-delete">Delete</a>
+            </div>
+        </div>
+        {% empty %}
+        <p style="color: white; opacity: 0.5;">No items in the menu yet.</p>
+        {% endfor %}
+    </div>
 
+   <div class="btn-container">
+        <a href="{% url 'admin_page' %}" class="btn-back">Back to Admin Page</a>
+    </div>
+</div>
 {% endblock %}

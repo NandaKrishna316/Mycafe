@@ -1,27 +1,131 @@
 {% extends 'base.html' %}
-{% block title %}Admin Page{% endblock %}
+{% load static %}
+{% block title %}Admin Dashboard{% endblock %}
 
 {% block content %}
-    <h1>Admin Page</h1>
-    <p>Welcome to the admin page. Here you can manage the cafe's operations.</p>
-    <button>
-        <a href="{% url 'add_order' %}">Add today's menu</a>
-    </button>
-    <button>
-            <a href="{% url 'your_order' %}">View the menu for today</a>
-    </button>
-    <button>
-            <a href="{% url 'complaint_s' %}">View Complaints</a>
-    </button>
-    <button>
-        <a href="{% url 'signin' %}">Logout</a>
-    </button>
 
-    <button>
-        <a href="{% url 'admin_orders' %}">See All Orders</a>
-    </button>
-    <button>
-        <a href="{% url 'manage_menu' %}">Manage Menu</a>
-    </button>
-        
+<style>
+    :root {
+        --glass-bg: rgba(255, 255, 255, 0.1);
+        --glass-border: rgba(255, 255, 255, 0.2);
+    }
+
+    body {
+        margin: 0;
+        font-family: 'Poppins', 'Segoe UI', sans-serif;
+        /* Fixed background so it doesn't scroll with the content */
+        background: url("{% static 'images/Luvcafe.png' %}") no-repeat center center fixed;
+        background-size: cover;
+        /* Allow body to grow */
+        min-height: 100vh;
+    }
+
+    .overlay {
+        /* Allow the overlay to expand with content */
+        min-height: 100vh;
+        width: 100%;
+        background: radial-gradient(circle, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.7) 100%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        backdrop-filter: blur(3px);
+        /* Added padding for mobile scrolling room */
+        padding: 40px 20px;
+        box-sizing: border-box;
+    }
+
+    .admin-card {
+        background: var(--glass-bg);
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        border: 1px solid var(--glass-border);
+        border-radius: 24px;
+        padding: 50px;
+        text-align: center;
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+        max-width: 800px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    h1 {
+        color: white;
+        font-size: 2.5rem;
+        margin-bottom: 40px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+    }
+
+    .btn-grid {
+        display: grid;
+        /* Improved grid for better responsiveness */
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 20px;
+        width: 100%;
+    }
+
+    .btn-nav {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 18px 20px;
+        border-radius: 15px;
+        text-decoration: none;
+        color: rgb(255, 255, 255);
+        font-weight: 600;
+        font-size: 1rem;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+
+    .btn-nav:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+    }
+
+    .logout-btn {
+        background: rgba(255, 71, 87, 0.2);
+        border: 1px solid rgba(255, 71, 87, 0.3);
+    }
+
+    .logout-btn:hover {
+        background: rgba(255, 71, 87, 0.5);
+    }
+
+    /* Tablet/Mobile Tweaks */
+    @media (max-width: 768px) {
+        .admin-card {
+            padding: 30px 15px;
+        }
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+        }
+        .btn-grid {
+            grid-template-columns: 1fr; /* Stack buttons on small screens */
+        }
+    }
+</style>
+
+<div class="overlay">
+    <div class="admin-card">
+        <h1>Admin Control Panel</h1>
+
+        <div class="btn-grid">
+            <a href="{% url 'add_order' %}" class="btn-nav">Add Today's Menu</a>
+            <a href="{% url 'your_order' %}" class="btn-nav">View Today's Menu</a>
+            <a href="{% url 'complaint_s' %}" class="btn-nav">View Complaints</a>
+            <a href="{% url 'admin_orders' %}" class="btn-nav">See All Orders</a>
+            <a href="{% url 'manage_menu' %}" class="btn-nav">Manage Menu</a>
+            <a href="{% url 'signin' %}" class="btn-nav logout-btn">Logout System</a>
+        </div>
+    </div>
+</div>
+
 {% endblock %}

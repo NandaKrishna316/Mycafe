@@ -1,22 +1,149 @@
 {% extends 'base.html' %}
+{% load static %}
+{% block title %}User Complaints{% endblock %}
 
 {% block content %}
-<title>Complaint</title>
-<h1>Complaint</h1>
-<table border="1">
-    <tr>
-        <th>Sl No</th>
-        <th>Complaint</th>
-    </tr>
-    {% for complaint in complaints %}
-    <tr>
-        <td>{{ forloop.counter }}</td>
-        <td>{{ complaint.complaint_text }}</td>
-    </tr>
-    {% endfor %}
-</table>
+<style>
+    body {
+        margin: 0;
+        font-family: 'Poppins', sans-serif;
+        background: url("{% static 'images/Luvcafe.png' %}") no-repeat center center fixed;
+        background-size: cover;
+        min-height: 100vh;
+    }
 
-<button>
-    <a href="{% url 'admin_page' %}">Go to admin page</a>
-</button>
+    .container {
+        min-height: 100vh;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.7); /* Slightly darker for serious content */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 50px 20px;
+        box-sizing: border-box;
+        backdrop-filter: blur(8px);
+    }
+
+    .header-section {
+        text-align: center;
+        margin-bottom: 40px;
+        color: white;
+    }
+
+    h1 {
+        font-size: 2.5rem;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        margin-bottom: 10px;
+    }
+
+    .underline {
+        width: 60px;
+        height: 4px;
+        background: #ff4757; /* Red accent for complaints */
+        margin: 0 auto;
+        border-radius: 2px;
+    }
+
+    .complaint-list {
+        width: 100%;
+        max-width: 700px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    /* Individual Complaint Card */
+    .complaint-card {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-left: 5px solid #f8f7f7; /* Red indicator */
+        padding: 20px 25px;
+        border-radius: 15px;
+        color: white;
+        display: flex;
+        align-items: flex-start;
+        gap: 20px;
+        transition: transform 0.3s ease, background 0.3s ease;
+    }
+
+    .complaint-card:hover {
+        background: rgba(255, 255, 255, 0.15);
+        transform: scale(1.02);
+    }
+
+    .sl-no {
+        background: rgba(255, 255, 255, 0.2);
+        min-width: 35px;
+        height: 35px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        font-weight: bold;
+        font-size: 0.9rem;
+    }
+
+    .complaint-text {
+        font-size: 1.05rem;
+        line-height: 1.6;
+        color: rgba(255, 255, 255, 0.9);
+    }
+
+    /* Back Button */
+    .footer-actions {
+        margin-top: 50px;
+    }
+
+    .btn-back {
+        padding: 12px 30px;
+        border-radius: 30px;
+        text-decoration: none;
+        color: white;
+        font-weight: 600;
+        background: transparent;
+        border: 2px solid white;
+        transition: all 0.3s ease;
+    }
+
+    .btn-back:hover {
+        background: white;
+        color: black;
+    }
+
+    /* Empty State */
+    .no-complaints {
+        text-align: center;
+        color: rgba(255, 255, 255, 0.5);
+        font-style: italic;
+        padding: 50px;
+    }
+</style>
+
+<div class="container">
+    <div class="header-section">
+        <h1>Customer Complaints</h1>
+        <div class="underline"></div>
+    </div>
+
+    <div class="complaint-list">
+        {% for complaint in complaints %}
+        <div class="complaint-card">
+            <div class="sl-no">{{ forloop.counter }}</div>
+            <div class="complaint-text">
+                {{ complaint.complaint_text }}
+            </div>
+        </div>
+        {% empty %}
+        <div class="no-complaints">
+            <p>Great news! There are no complaints at the moment.</p>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="footer-actions">
+        <a href="{% url 'admin_page' %}" class="btn-back">Return to Admin Panel</a>
+    </div>
+</div>
 {% endblock %}

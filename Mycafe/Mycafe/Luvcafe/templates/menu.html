@@ -1,26 +1,202 @@
 {% extends 'base.html' %}
-{% block title %}Menu{% endblock %}
+{% load static %}
+
+{% block title %}Order Now | LUVCAFE{% endblock %}
 
 {% block content %}
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap');
 
-<form method="POST" action="{% url 'your_cart' %}">
-    {% csrf_token %}
+    body {
+        margin: 0;
+        font-family: 'Poppins', sans-serif;
+        background: url("{% static 'images/Luvcafe.png' %}") no-repeat center center fixed;
+        background-size: cover;
+        min-height: 100vh;
+    }
 
-    {% for item in items %}
-        <div>
-            <h3>{{ item.tastes }} - ₹{{ item.price }}</h3>
-            Quantity: 
-            <input type="number" name="quantity_{{ item.id }}" value="0" min="0">
+    .order-container {
+        min-height: 100vh;
+        width: 100%;
+        background: linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.8) 100%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 60px 20px;
+        box-sizing: border-box;
+        backdrop-filter: blur(5px);
+    }
+
+    .header-section {
+        text-align: center;
+        margin-bottom: 40px;
+        color: white;
+    }
+
+    .header-section h1 {
+        font-family: 'Playfair Display', serif;
+        font-size: 2.8rem;
+        margin: 0;
+    }
+
+    .header-section h1 span { color: #ff6a00; }
+
+    /* The Order Form Grid */
+    .menu-form {
+        width: 100%;
+        max-width: 900px;
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    .item-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+    }
+
+    /* Individual Item Card */
+    .item-card {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 20px;
+        padding: 25px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: white;
+        transition: 0.3s;
+    }
+
+    .item-card:hover {
+        background: rgba(255, 255, 255, 0.15);
+        transform: translateY(-5px);
+    }
+
+    .item-info h3 {
+        margin: 0;
+        font-size: 1.2rem;
+        font-weight: 600;
+    }
+
+    .item-info .price {
+        color: #f1c40f;
+        font-weight: 500;
+        margin-top: 5px;
+    }
+
+    /* Quantity Input Styling */
+    .quantity-control {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .quantity-control label {
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        opacity: 0.7;
+    }
+
+    .quantity-input {
+        width: 60px;
+        background: rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 8px;
+        color: white;
+        padding: 8px;
+        text-align: center;
+        font-size: 1rem;
+        outline: none;
+    }
+
+    .quantity-input:focus {
+        border-color: #ff6a00;
+    }
+
+    /* Footer Buttons */
+    .order-footer {
+        position: sticky;
+        bottom: 20px;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(20px);
+        padding: 20px;
+        border-radius: 25px;
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+        flex-wrap: wrap;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .btn-submit {
+        background: linear-gradient(90deg, #ff6a00, #ee0979);
+        color: white;
+        border: none;
+        padding: 12px 30px;
+        border-radius: 50px;
+        font-weight: 600;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .btn-secondary {
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid white;
+        color: white;
+        padding: 12px 25px;
+        border-radius: 50px;
+        text-decoration: none;
+        font-size: 0.9rem;
+        font-weight: 600;
+        transition: 0.3s;
+    }
+
+    .btn-submit:hover, .btn-secondary:hover {
+        transform: translateY(-2px);
+        filter: brightness(1.1);
+    }
+
+    .btn-secondary:hover { background: white; color: black; }
+
+</style>
+
+<div class="order-container">
+    <div class="header-section">
+        <h1>LUV<span>CAFE</span> MENU</h1>
+        <p>Select quantities and add to your tray</p>
+    </div>
+
+    <form method="POST" action="{% url 'your_cart' %}" class="menu-form">
+        {% csrf_token %}
+
+        <div class="item-grid">
+            {% for item in items %}
+            <div class="item-card">
+                <div class="item-info">
+                    <h3>{{ item.tastes }}</h3>
+                    <div class="price">₹{{ item.price }}</div>
+                </div>
+                
+                <div class="quantity-control">
+                    <label>Qty</label>
+                    <input type="number" name="quantity_{{ item.id }}" 
+                           class="quantity-input" value="0" min="0">
+                </div>
+            </div>
+            {% endfor %}
         </div>
-    {% endfor %}
 
-    <button type="submit">Add to Cart</button>
-    <button>
-        <a href="{% url 'view_cart' %}">View your Cart</a>
-    </button>
-    <button>
-        <a href="{% url 'online' %}">Back to Home</a>
-    </button>
-</form>
-
+        <div class="order-footer">
+            <button type="submit" class="btn-submit">Add to Cart</button>
+            <a href="{% url 'view_cart' %}" class="btn-secondary">🛒 View Cart</a>
+            <a href="{% url 'online' %}" class="btn-secondary">🏠 Back</a>
+        </div>
+    </form>
+</div>
 {% endblock %}

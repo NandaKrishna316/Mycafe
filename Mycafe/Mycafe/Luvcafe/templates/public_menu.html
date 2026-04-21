@@ -1,24 +1,172 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Today's Menu | LUVCAFE{% endblock %}
 
 {% block content %}
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap');
 
-<h2>Today's Menu</h2>
+    body {
+        margin: 0;
+        font-family: 'Poppins', sans-serif;
+        background: url("{% static 'images/Luvcafe.png' %}") no-repeat center center fixed;
+        background-size: cover;
+        min-height: 100vh;
+    }
 
-{% for item in items %}
-    <div>
-        <h3>{{ item.tastes }}</h3>
-        <p>Price: ₹{{ item.price }}</p>
+    .menu-wrapper {
+        min-height: 100vh;
+        width: 100%;
+        background: linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.8) 100%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 60px 20px;
+        box-sizing: border-box;
+        backdrop-filter: blur(5px);
+    }
+
+    .menu-header {
+        text-align: center;
+        margin-bottom: 50px;
+        color: white;
+        animation: fadeInDown 0.8s ease-out;
+    }
+
+    .menu-header h1 {
+        font-family: 'Playfair Display', serif;
+        font-size: 3rem;
+        margin: 0;
+        letter-spacing: 2px;
+    }
+
+    .menu-header h1 span {
+        color: #ff6a00;
+    }
+
+    .menu-header p {
+        font-weight: 300;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        opacity: 0.8;
+    }
+
+    /* Grid Layout for Menu Items */
+    .menu-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 25px;
+        width: 100%;
+        max-width: 1000px;
+        margin-bottom: 50px;
+    }
+
+    .menu-item-card {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 20px;
+        padding: 30px;
+        text-align: center;
+        color: white;
+        transition: 0.3s;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .menu-item-card:hover {
+        transform: translateY(-10px);
+        background: rgba(255, 255, 255, 0.15);
+        border-color: #ff6a00;
+    }
+
+    .item-title {
+        font-size: 1.4rem;
+        font-weight: 600;
+        margin-bottom: 10px;
+        color: #fff;
+    }
+
+    .item-price {
+        font-size: 1.2rem;
+        color: #f1c40f; /* Gold for prices */
+        font-weight: 500;
+    }
+
+    /* Navigation Buttons */
+    .button-group {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .btn-action {
+        padding: 14px 35px;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 1rem;
+        transition: 0.4s;
+        border: none;
+        cursor: pointer;
+    }
+
+    .btn-login {
+        background: linear-gradient(90deg, #ff6a00, #ee0979);
+        color: white;
+        box-shadow: 0 10px 20px rgba(238, 9, 121, 0.3);
+    }
+
+    .btn-login:hover {
+        transform: scale(1.05);
+        box-shadow: 0 15px 25px rgba(238, 9, 121, 0.5);
+    }
+
+    .btn-home {
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
+        border: 1px solid white;
+    }
+
+    .btn-home:hover {
+        background: white;
+        color: black;
+    }
+
+    @keyframes fadeInDown {
+        from { opacity: 0; transform: translateY(-20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 600px) {
+        .menu-header h1 { font-size: 2.2rem; }
+        .btn-action { width: 100%; text-align: center; }
+    }
+</style>
+
+<div class="menu-wrapper">
+    <div class="menu-header">
+        <h1>LUV<span>CAFE</span></h1>
+        <p>Today's Fresh Selection</p>
     </div>
-{% endfor %}
 
-<br>
+    <div class="menu-grid">
+        {% for item in items %}
+        <div class="menu-item-card">
+            <div class="item-title">{{ item.tastes }}</div>
+            <div class="item-price">₹{{ item.price }}</div>
+        </div>
+        {% empty %}
+        <p style="color: white; text-align: center; width: 100%;">Our chefs are currently updating the menu. Check back soon!</p>
+        {% endfor %}
+    </div>
 
-<a href="{% url 'signin' %}">
-    <button>Login to Order</button>
-</a>
-
-<button>
-    <a href="{% url 'home_page' %}">Go to home page</a>
-</button>
-
+    <div class="button-group">
+        <a href="{% url 'signin' %}" class="btn-action btn-login">Login to Order</a>
+        <a href="{% url 'home_page' %}" class="btn-action btn-home">Back to Home</a>
+    </div>
+</div>
 {% endblock %}

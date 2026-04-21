@@ -1,28 +1,145 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
-<title>Add Order</title>
-<h1>Add Tastes</h1>
-<form method="post">
-    {% csrf_token %}
-    <div>
+<style>
+    body {
+        margin: 0;
+        font-family: 'Poppins', sans-serif;
+        background: url("{% static 'images/Luvcafe.png' %}") no-repeat center center fixed;
+        background-size: cover;
+        min-height: 100vh;
+    }
+
+    .container {
+        min-height: 100vh;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 40px 20px;
+        box-sizing: border-box;
+        backdrop-filter: blur(6px);
+    }
+
+    .form-card {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(15px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 24px;
+        padding: 40px;
+        width: 100%;
+        max-width: 500px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+        color: white;
+    }
+
+    h1 {
+        text-align: center;
+        margin-bottom: 30px;
+        font-size: 1.8rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        font-weight: 700;
+    }
+
+    /* Form Styling */
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    label {
+        font-size: 0.9rem;
+        font-weight: 500;
+        margin-bottom: -12px;
+        margin-left: 5px;
+        color: rgba(255, 255, 255, 0.8);
+    }
+
+    input {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 12px;
+        padding: 15px;
+        color: white;
+        font-size: 1rem;
+        outline: none;
+        transition: all 0.3s ease;
+    }
+
+    input:focus {
+        background: rgba(255, 255, 255, 0.15);
+        border-color: #f1c40f; /* Gold glow on focus */
+        box-shadow: 0 0 10px rgba(241, 196, 15, 0.3);
+    }
+
+    button[type="submit"] {
+        background: #f1c40f;
+        color: #000;
+        border: none;
+        padding: 15px;
+        border-radius: 12px;
+        font-weight: 700;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: 0.3s;
+        margin-top: 10px;
+    }
+
+    button[type="submit"]:hover {
+        background: #d4ac0d;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(241, 196, 15, 0.4);
+    }
+
+    /* Action Links */
+    .add-actions {
+        margin-top: 30px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        align-items: center;
+    }
+
+    .add-button {
+        text-decoration: none;
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 0.9rem;
+        transition: 0.3s;
+        border-bottom: 1px solid transparent;
+    }
+
+    .add-button:hover {
+        color: white;
+        border-bottom: 1px solid white;
+    }
+
+</style>
+
+<div class="container">
+    <div class="form-card">
+        <h1>Add New Taste</h1>
+        
         <form method="post">
-        {% csrf_token %}
-        <label for="tastes">Tastes:</label>
-        <input type="text" id="tastes" name="tastes" required><br><br>
+            {% csrf_token %}
+            
+            <label for="tastes">Item Name</label>
+            <input type="text" id="tastes" name="tastes" placeholder="e.g. Cappuccino" required>
 
-        <label for="price">Price:</label>
-        <input type="number" id="price" name="price" required><br><br>
+            <label for="price">Price (₹)</label>
+            <input type="number" id="price" name="price" placeholder="0.00" required>
 
-        <button type="submit" value="Add your order">Add your order </button>
+            <button type="submit">Add to Menu</button>
         </form>
 
-        <button>
-            <a href="{% url 'your_order' %}">View order</a>
-        </button>
-        <button>
-            <a href="{% url 'admin_page' %}">Go to admin page</a>
-        </button>
+        <div class="add-actions">
+            <a class="add-button" href="{% url 'your_order' %}">View Current Menu</a>
+            <a class="add-button" href="{% url 'admin_page' %}">Return to Dashboard</a>
+        </div>
     </div>
-</form>
+</div>
 {% endblock %}

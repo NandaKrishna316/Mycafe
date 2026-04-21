@@ -1,18 +1,156 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Online Order | LUVCAFE{% endblock %}
 
 {% block content %}
-<title>Online Order</title>
-<h1>Welcome to LUVCAFE</h1>
-<h2>Online Order</h2>
-<p>Welcome to our online ordering system! Please select your favorite items from our menu and place your order. We offer a variety of delicious options to satisfy your cravings. Browse through our menu, add items to your cart, and proceed to checkout when you're ready. Enjoy a seamless and convenient ordering experience with us!</p>
-<button>
-    <a href="{% url 'menu' %}">Get Order</a>
-</button>
-<button>
-    <a href="{% url 'home_page' %}">Logout</a>
-</button>
- <button>
-    <a class="home-button" href="{% url 'complaint' %}">Register Complaint</a>
-</button>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap');
 
-{% endblock content %}
+    body {
+        margin: 0;
+        font-family: 'Poppins', sans-serif;
+        background: url("{% static 'images/Luvcafe.png' %}") no-repeat center center fixed;
+        background-size: cover;
+        min-height: 100vh;
+    }
+
+    .order-wrapper {
+        min-height: 100vh;
+        width: 100%;
+        background: linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.8) 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        backdrop-filter: blur(4px);
+        padding: 40px 20px;
+        box-sizing: border-box;
+    }
+
+    .welcome-card {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 30px;
+        padding: 50px 40px;
+        width: 100%;
+        max-width: 600px;
+        text-align: center;
+        box-shadow: 0 25px 50px rgba(0,0,0,0.4);
+        color: white;
+        animation: fadeInUp 0.8s ease-out;
+    }
+
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .brand-logo {
+        font-family: 'Playfair Display', serif;
+        font-size: 2.5rem;
+        margin-bottom: 5px;
+    }
+
+    .brand-logo span {
+        color: #ff6a00;
+    }
+
+    h2 {
+        font-weight: 300;
+        font-size: 1.4rem;
+        letter-spacing: 3px;
+        margin-bottom: 25px;
+        color: rgba(255, 255, 255, 0.9);
+        text-transform: uppercase;
+    }
+
+    .intro-text {
+        font-size: 1rem;
+        line-height: 1.8;
+        color: rgba(255, 255, 255, 0.8);
+        margin-bottom: 35px;
+    }
+
+    /* Main Action Buttons */
+    .action-group {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        align-items: center;
+    }
+
+    .btn-order {
+        width: 100%;
+        max-width: 300px;
+        padding: 16px;
+        background: linear-gradient(90deg, #ff6a00, #ee0979);
+        color: white;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 1.1rem;
+        box-shadow: 0 10px 20px rgba(238, 9, 121, 0.3);
+        transition: 0.4s;
+    }
+
+    .btn-order:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 25px rgba(238, 9, 121, 0.5);
+    }
+
+    .btn-logout {
+        color: rgba(255, 255, 255, 0.6);
+        text-decoration: none;
+        font-size: 0.9rem;
+        margin-top: 10px;
+        transition: 0.3s;
+    }
+
+    .btn-logout:hover {
+        color: #ff4757;
+    }
+
+    /* Complaint Link */
+    .complaint-box {
+        margin-top: 40px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        padding-top: 20px;
+    }
+
+    .complaint-link {
+        color: rgba(255, 255, 255, 0.4);
+        text-decoration: none;
+        font-size: 0.85rem;
+        transition: 0.3s;
+    }
+
+    .complaint-link:hover {
+        color: white;
+        text-decoration: underline;
+    }
+
+</style>
+
+<div class="order-wrapper">
+    <div class="welcome-card">
+        <div class="brand-logo">LUV<span>CAFE</span></div>
+        <h2>Online Order</h2>
+        
+        <p class="intro-text">
+            Welcome to our online ordering system! Select your favorite items from our carefully curated menu and enjoy a seamless ordering experience from the comfort of your home.
+        </p>
+
+        <div class="action-group">
+            <a href="{% url 'menu' %}" class="btn-order">Browse Menu & Order</a>
+            <a href="{% url 'home_page' %}" class="btn-logout">Logout</a>
+        </div>
+
+        <div class="complaint-box">
+            <a href="{% url 'complaint' %}" class="complaint-link">Something wrong? Register a Complaint</a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

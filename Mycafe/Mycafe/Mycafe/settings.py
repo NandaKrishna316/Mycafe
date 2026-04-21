@@ -41,6 +41,7 @@ INSTALLED_APPS = [
 ]
 
 AUTH_USER_MODEL = 'Luvcafe.register'
+STATIC_URL = '/static/'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

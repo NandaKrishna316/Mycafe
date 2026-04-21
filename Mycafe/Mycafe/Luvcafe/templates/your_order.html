@@ -1,24 +1,137 @@
 {% extends 'base.html' %}
+{% load static %}
+{% block title %}Today's Menu{% endblock %}
 
 {% block content %}
+<style>
+    body {
+        margin: 0;
+        font-family: 'Poppins', sans-serif;
+        background: url("{% static 'images/Luvcafe.png' %}") no-repeat center center fixed;
+        background-size: cover;
+        min-height: 100vh;
+    }
 
-<table border="1">
+    .container {
+        min-height: 100vh;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.6); /* Darkens the bg for readability */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 40px 20px;
+        box-sizing: border-box;
+        backdrop-filter: blur(5px);
+    }
+
+    .menu-card {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(15px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 20px;
+        width: 100%;
+        max-width: 800px;
+        padding: 30px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+        color: white;
+    }
+
+    h2 {
+        text-align: center;
+        margin-bottom: 25px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-weight: 600;
+    }
+
+    /* Table Styling */
+    .styled-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 30px;
+        font-size: 1rem;
+    }
+
+    .styled-table thead tr {
+        background-color: rgba(255, 255, 255, 0.2);
+        text-align: left;
+    }
+
+    .styled-table th, .styled-table td {
+        padding: 15px 20px;
+    }
+
+    .styled-table tbody tr {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        transition: background 0.3s ease;
+    }
+
+    .styled-table tbody tr:hover {
+        background: rgba(255, 255, 255, 0.15);
+    }
+
+    /* Action Buttons */
+    .actions {
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .btn {
+        padding: 12px 25px;
+        border-radius: 10px;
+        text-decoration: none;
+        color: white;
+        font-weight: 500;
+        transition: 0.3s;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        background: rgba(255, 255, 255, 0.1);
+    }
+
+    .btn:hover {
+        background: white;
+        color: black;
+        transform: translateY(-3px);
+    }
+
+    .btn-primary {
+        background: rgba(255, 255, 255, 0.2);
+        border-color: white;
+    }
+</style>
+
+<div class="container">
+    <div class="menu-card">
+        <h2>Today's Menu Selection</h2>
+        
+        <table class="styled-table">
+            <thead>
                 <tr>
-                    <th>Sl No</th>
-                    <th>Item</th>
+                    <th>#</th>
+                    <th>Item Name</th>
                     <th>Price</th>
                 </tr>
+            </thead>
+            <tbody>
                 {% for tastes in orders %}
                 <tr>
-                    <td>{{ forloop.counter}}</td>
+                    <td><strong>{{ forloop.counter }}</strong></td>
                     <td>{{ tastes.tastes }}</td>
-                    <td>{{ tastes.price }}</td>
+                    <td>₹{{ tastes.price }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="3" style="text-align: center; padding: 30px;">No items added yet.</td>
                 </tr>
                 {% endfor %}
-            </table>
-        </ul>
-        <button>
-            <a href="{% url 'admin_page' %}">Go to home page</a>
-        </button>
-    
+            </tbody>
+        </table>
+
+        <div class="actions">
+            <a href="{% url 'add_order' %}" class="btn btn-primary">Add More Items</a>
+            <a href="{% url 'admin_page' %}" class="btn">Back to Dashboard</a>
+        </div>
+    </div>
+</div>
 {% endblock %}
