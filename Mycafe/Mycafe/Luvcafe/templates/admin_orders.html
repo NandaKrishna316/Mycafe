@@ -1,9 +1,12 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}All Orders{% endblock %}
+
+{% block title %}All Orders | LUVCAFE Admin{% endblock %}
 
 {% block content %}
 <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap');
+
     body {
         margin: 0;
         font-family: 'Poppins', sans-serif;
@@ -12,188 +15,198 @@
         min-height: 100vh;
     }
 
-    .container {
+    .main-wrapper {
         min-height: 100vh;
         width: 100%;
         background: rgba(0, 0, 0, 0.7);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 50px 20px;
+        backdrop-filter: blur(8px);
+        padding: 40px 20px;
         box-sizing: border-box;
-        backdrop-filter: blur(6px);
+        position: relative;
     }
 
-    h2 {
-        color: white;
-        font-size: 2.2rem;
-        text-transform: uppercase;
-        letter-spacing: 3px;
-        margin-bottom: 40px;
-        text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
-    }
-
-    .orders-grid {
-        width: 100%;
-        max-width: 900px;
-        display: grid;
-        grid-template-columns: 1fr; /* One large column for easy reading */
-        gap: 30px;
-    }
-
-    /* Order Card Styling */
-    .order-card {
-        background: rgba(255, 255, 255, 0.08);
-        backdrop-filter: blur(12px);
-        border: 1px solid rgba(255, 255, 255, 0.15);
-        border-radius: 20px;
-        overflow: hidden; /* Keeps the top badge neat */
-        box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-        color: white;
-        transition: 0.3s;
-    }
-
-    .order-card:hover {
-        border-color: rgba(255, 255, 255, 0.4);
-        transform: translateY(-5px);
-    }
-
-    /* Top strip of the card */
-    .order-header {
-        background: rgba(255, 255, 255, 0.1);
-        padding: 15px 25px;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    .order-badge {
-        background: #27ae60; /* Green for active orders */
-        padding: 4px 12px;
-        border-radius: 20px;
-        font-size: 0.8rem;
-        font-weight: bold;
-        text-transform: uppercase;
-    }
-
-    .order-body {
-        display: grid;
-        grid-template-columns: 1fr 1fr; /* Split Info and Items */
-        padding: 25px;
-        gap: 20px;
-    }
-
-    h3 {
-        font-size: 1.1rem;
-        margin-top: 0;
-        color: #f1c40f; /* Yellow accent for headers */
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        padding-bottom: 8px;
-        margin-bottom: 15px;
-    }
-
-    .info-section p {
-        margin: 5px 0;
-        font-size: 0.9rem;
-        opacity: 0.9;
-    }
-
-    .info-section strong {
-        color: white;
-    }
-
-    .items-section {
-        background: rgba(0, 0, 0, 0.2);
-        padding: 15px;
-        border-radius: 12px;
-    }
-
-    .order-item {
-        display: flex;
-        justify-content: space-between;
-        border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
-        padding: 5px 0;
-        font-size: 0.95rem;
-    }
-
-    .total-price {
-        margin-top: 15px;
-        text-align: right;
-        font-size: 1.2rem;
-        font-weight: bold;
-        color: #2ecc71;
-    }
-
-    /* Back Button */
-    .btn-container {
-        margin-top: 40px;
+    /* Top Left Back Button */
+    .top-nav {
+        position: absolute;
+        top: 30px;
+        left: 30px;
+        z-index: 100;
     }
 
     .btn-back {
-        padding: 12px 35px;
-        border-radius: 12px;
-        text-decoration: none;
-        color: white;
-        font-weight: 600;
+        padding: 10px 20px;
         background: rgba(255, 255, 255, 0.1);
         border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 12px;
+        color: white;
+        text-decoration: none;
+        font-size: 0.9rem;
+        font-weight: 600;
+        backdrop-filter: blur(10px);
         transition: 0.3s;
+        display: flex;
+        align-items: center;
+        gap: 8px;
     }
 
     .btn-back:hover {
         background: white;
         color: black;
+        transform: translateX(-5px);
     }
 
-    /* Mobile view */
-    @media (max-width: 700px) {
+    h2 {
+        font-family: 'Playfair Display', serif;
+        color: white;
+        font-size: 2.5rem;
+        text-align: center;
+        margin-bottom: 50px;
+        letter-spacing: 2px;
+    }
+
+    h2 span { color: #f1c40f; }
+
+    .orders-grid {
+        width: 100%;
+        max-width: 900px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+
+    .order-card {
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+        color: white;
+        transition: 0.3s;
+    }
+
+    .order-card:hover {
+        background: rgba(255, 255, 255, 0.12);
+        border-color: #f1c40f;
+    }
+
+    .order-header {
+        background: rgba(255, 255, 255, 0.05);
+        padding: 15px 25px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-weight: 600;
+        font-size: 0.9rem;
+    }
+
+    .order-badge {
+        background: #27ae60;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+    }
+
+    .order-body {
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        padding: 25px;
+        gap: 30px;
+    }
+
+    h3 {
+        font-size: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: #f1c40f;
+        margin-bottom: 15px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        padding-bottom: 5px;
+    }
+
+    .details p {
+        margin: 8px 0;
+        font-size: 0.95rem;
+        opacity: 0.9;
+    }
+
+    .items-list {
+        background: rgba(0, 0, 0, 0.2);
+        padding: 15px;
+        border-radius: 12px;
+    }
+
+    .item-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 6px 0;
+        border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+    }
+
+    .total-line {
+        margin-top: 15px;
+        text-align: right;
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: #2ecc71;
+    }
+
+    @media (max-width: 768px) {
         .order-body { grid-template-columns: 1fr; }
-        h2 { font-size: 1.6rem; }
+        .top-nav { position: static; margin-bottom: 20px; }
+        h2 { font-size: 1.8rem; }
     }
 </style>
 
-<div class="container">
-    <h2>All Orders</h2>
+<div class="main-wrapper">
+    <div class="top-nav">
+        <a href="{% url 'admin_page' %}" class="btn-back">
+            ← Admin Dashboard
+        </a>
+    </div>
+
+    <h2>Active <span>Orders</span></h2>
 
     <div class="orders-grid">
         {% for order in orders %}
         <div class="order-card">
             <div class="order-header">
-                <span>Order #{{ forloop.counter }}</span>
-                <span class="order-badge">Confirmed Delivery</span>
+                <span>ORDER #{{ forloop.counter }}</span>
+                <span class="order-badge">Paid & Confirmed</span>
             </div>
 
             <div class="order-body">
-                <div class="info-section">
-                    <h3>Customer Details</h3>
+                <div class="details">
+                    <h3>Customer Info</h3>
                     <p><strong>Name:</strong> {{ order.user.username }}</p>
                     <p><strong>Email:</strong> {{ order.user.email }}</p>
-                    <p><strong>Address:</strong> {{ order.user.home_address }}</p>
                     <p><strong>Phone:</strong> {{ order.user.contact_number }}</p>
+                    <p><strong>Address:</strong> {{ order.user.home_address }}</p>
                 </div>
 
                 <div class="items-section">
-                    <h3>Order Items</h3>
-                    {% for item in order.orderitem_set.all %}
-                    <div class="order-item">
-                        <span>{{ item.item.tastes }}</span>
-                        <span>x {{ item.quantity }}</span>
-                    </div>
-                    {% endfor %}
-                    <div class="total-price">
-                        Total: ₹{{ order.total }}
+                    <h3>Items</h3>
+                    <div class="items-list">
+                        {% for item in order.orderitem_set.all %}
+                        <div class="item-row">
+                            <span>{{ item.item.tastes }}</span>
+                            <span>x{{ item.quantity }}</span>
+                        </div>
+                        {% endfor %}
+                        <div class="total-line">
+                            ₹{{ order.total }}
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
         {% empty %}
-        <p style="color: white; text-align: center;">No orders found.</p>
+        <div style="text-align: center; color: white; padding: 50px;">
+            <p>No active orders found.</p>
+        </div>
         {% endfor %}
-    </div>
-
-    <div class="btn-container">
-        <a href="{% url 'admin_page' %}" class="btn-back">Back to Admin Page</a>
     </div>
 </div>
 {% endblock %}

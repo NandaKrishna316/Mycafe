@@ -1,20 +1,123 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Edit Item | LUVCAFE Admin{% endblock %}
 
 {% block content %}
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
-<h2>Edit Item</h2>
+    body {
+        margin: 0;
+        font-family: 'Poppins', sans-serif;
+        /* Ensure the filename extension matches your uploaded file (.jpg) */
+        background: url("{% static 'images/Luvcafe.png' %}") no-repeat center center fixed;
+        background-size: cover;
+        min-height: 100vh;
+    }
 
-<form method="POST">
-    {% csrf_token %}
-    
-    <input type="text" name="tastes" value="{{ item.tastes }}">
-    <input type="number" name="price" value="{{ item.price }}">
+    .edit-wrapper {
+        min-height: 100vh;
+        width: 100%;
+        /* Darker overlay to make white text readable against the wood background */
+        background: rgba(0, 0, 0, 0.65);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        backdrop-filter: blur(8px);
+        padding: 20px;
+        box-sizing: border-box;
+    }
 
-    <button type="submit">Update</button>
-</form>
+    .edit-card {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 24px;
+        padding: 40px;
+        width: 100%;
+        max-width: 400px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+        color: white;
+        text-align: center;
+    }
 
-<button>
-    <a href="{% url 'admin_page' %}">Go to admin page</a>
-</button>
+    h2 {
+        font-size: 1.8rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        margin-bottom: 30px;
+    }
 
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    input {
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 12px;
+        padding: 15px;
+        color: white;
+        font-size: 1rem;
+        outline: none;
+        transition: 0.3s;
+    }
+
+    input:focus {
+        border-color: #f1c40f; /* Matches the gold lighting in the photo */
+        background: rgba(255, 255, 255, 0.15);
+    }
+
+    .btn-update {
+        background: #f1c40f; /* Warm Amber */
+        color: #000;
+        border: none;
+        padding: 15px;
+        border-radius: 12px;
+        font-weight: 700;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: 0.3s;
+        margin-top: 10px;
+    }
+
+    .btn-update:hover {
+        background: #e1b10a;
+        transform: translateY(-2px);
+    }
+
+    .btn-back {
+        display: inline-block;
+        margin-top: 25px;
+        text-decoration: none;
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 0.9rem;
+        transition: 0.3s;
+    }
+
+    .btn-back:hover {
+        color: white;
+    }
+</style>
+
+<div class="edit-wrapper">
+    <div class="edit-card">
+        <h2>Edit Item</h2>
+
+        <form method="POST">
+            {% csrf_token %}
+            
+            <input type="text" name="tastes" value="{{ item.tastes }}" placeholder="Item Name">
+            <input type="number" name="price" value="{{ item.price }}" placeholder="Price">
+
+            <button type="submit" class="btn-update">Update Taste</button>
+        </form>
+
+        <a href="{% url 'admin_page' %}" class="btn-back">← Back to Admin Dashboard</a>
+    </div>
+</div>
 {% endblock %}
